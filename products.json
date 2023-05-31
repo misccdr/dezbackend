@@ -1,0 +1,23 @@
+[
+  {
+    "prodname": "Chocolate Cake",
+    "prodprice": 20.99,
+    "prodshop" : "64736104c5203cddd28dfb93",
+    "prodimage": "xyz",
+    "proddescription": "xyz",
+    "prodcategory": "xyz",
+    "veg": "true"
+  },
+
+  {
+    "prodname": "Vanilla Cake",
+    "prodprice": 2.99,
+    "prodshop" : "64736104c5203cddd28dfb93",
+    "prodimage": "xyz",
+    "proddescription": "xyz",
+    "prodcategory": "xyz",
+    "veg": "false"
+  }
+
+
+]
