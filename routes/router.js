@@ -15,7 +15,7 @@ const twilioVerifySid = "VA79f922fcfc4e1a77b7d9f12a586d985d";
 const twilio = require("twilio")(twilioAccountSid, twilioAuthToken);
 
 
-router.post('/api/auth/login', async (req, res) => {
+router.post('/api/login/sendphoneotp', async (req, res) => {
   try {
     const { phone } = req.body;
 
@@ -37,7 +37,7 @@ router.post('/api/auth/login', async (req, res) => {
   }
 });
 
-router.post("/api/auth/signup", async (req, res) => {
+router.post("/api/login/verifyphoneotp", async (req, res) => {
   try {
     const { phone, otp } = req.body;
     const verificationCheck = await twilio.verify.v2
@@ -77,12 +77,14 @@ router.post("/api/auth/signup", async (req, res) => {
   }
 });
 
-router.get('/api/getAllProducts', authenticateUser, async (req, res) => {
+
+router.get('/api/products/getAllProducts', async (req, res) => {
   const products = await Product.find(req.query);
   res.status(200).json({ products });
 })
 
-router.get('/api/getAllShops', async (req, res) => {
+
+router.get('/api/shops/getAllShops', async (req, res) => {
   const shops = await Shop.find(req.query);
   res.status(200).json({ shops });
 })
@@ -118,7 +120,7 @@ router.get("/api/products/:prodshop", (req, res) => {
 });
 
 
-router.get("/api/user",  authenticateUser, async(req, res) => {
+router.get("/api/user/getuser",  authenticateUser, async(req, res) => {
   try{
     const user = await User.findById(req.user._id)
 
@@ -137,7 +139,7 @@ router.get("/api/user",  authenticateUser, async(req, res) => {
   }
 });
 
-router.put("/api/updateuserdetails", authenticateUser, async(req, res) => {
+router.put("/api/user/updateuserdetails", authenticateUser, async(req, res) => {
   try{
     const updatedInfo = {
       username: req.body.username,
@@ -167,7 +169,7 @@ router.put("/api/updateuserdetails", authenticateUser, async(req, res) => {
   }
 })
 
-router.post("/api/otpphoneupdate", authenticateUser, async (req, res) => {
+router.post("/api/user/otpphoneupdate", authenticateUser, async (req, res) => {
   try{
     const {phone} = req.body
     const user = await User.findOne({phone});
@@ -191,7 +193,7 @@ router.post("/api/otpphoneupdate", authenticateUser, async (req, res) => {
   }
 });
 
-router.put("/api/verifyotpphoneupdate", authenticateUser, async (req, res) => {
+router.put("/api/user/verifyotpphoneupdate", authenticateUser, async (req, res) => {
   try{
     let user = await User.findOne({phone});
     const verifCheck = await twilio.verify.v2
