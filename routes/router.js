@@ -9,10 +9,9 @@ const Product = require("../models/product");
 const User = require("../models/user");
 
 
-const twilioAccountSid = "AC34158e1a987aab305d4a4407deb4df9f";
-const twilioAuthToken = "a978d5d335c3c55796dbe2b8e5c7d646";
-const twilioVerifySid = "VA79f922fcfc4e1a77b7d9f12a586d985d";
-const twilio = require("twilio")(twilioAccountSid, twilioAuthToken);
+
+
+const twilio = require("twilio")(process.env.twilioAccountSid, process.env.twilioAuthToken);
 
 
 router.post('/api/login/sendphoneotp', async (req, res) => {
@@ -20,7 +19,7 @@ router.post('/api/login/sendphoneotp', async (req, res) => {
     const { phone } = req.body;
 
     const verification = await twilio.verify.v2
-      .services(twilioVerifySid)
+      .services(process.env.twilioVerifySid)
       .verifications.create({ to: "+91" + phone, channel: "sms" });
     if (verification.status === "pending") {
       res.status(200).json({
@@ -72,7 +71,7 @@ router.post("/api/login/verifyphoneotp", async (req, res) => {
       });
     }
   } catch (error) {
-    res.status(500).send(error);  
+    res.status(500).send(error);
     console.log(error);
   }
 });
@@ -184,7 +183,8 @@ router.post("/api/user/otpphoneupdate", authenticateUser, async (req, res) => {
     if (verification.status === "pending") {
       res.status(200).json({
         success: true,
-        message: "OTP send to " + phone
+        verification,
+        phone,
       });
     }
   }catch(error){
@@ -196,7 +196,7 @@ router.put("/api/user/verifyotpphoneupdate", authenticateUser, async (req, res) 
   try{
     let user = await User.findOne({phone});
     const verifCheck = await twilio.verify.v2
-      .services(twilioVerifySid)
+      .services(process.env.twilioVerifySid)
       .verificationChecks.create({ to: `+91${phone}`, code: otp });
     if (verifCheck.status !== "approved") {
       return res.status(400).json({
