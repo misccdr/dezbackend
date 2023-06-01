@@ -39,7 +39,7 @@ router.post("/api/login/verifyphoneotp", async (req, res) => {
   try {
     const { phone, otp } = req.body;
     const verificationCheck = await twilio.verify.v2
-      .services(twilioVerifySid)
+      .services(process.env.twilioVerifySid)
       .verificationChecks.create({ to: `+91${phone}`, code: otp });
     if (verificationCheck.status !== "approved") {
       return res.status(400).json({
@@ -177,13 +177,12 @@ router.post("/api/user/otpphoneupdate", authenticateUser, async (req, res) => {
         message: "THIS CONTACT NUMBER IS ALREADY REGISTERED",
       });
     }
-    const verification = await twilio.verify.v2.services(twilioVerifySid)
+    const verification = await twilio.verify.v2.services(process.env.twilioVerifySid)
     .verifications.create({ to: "+91" + phone, channel: "sms" });
     if (verification.status === "pending") {
       res.status(200).json({
         success: true,
-        verification,
-        phone,
+        message: "OTP sent to "+phone
       });
     }
   }catch(error){
@@ -195,7 +194,14 @@ router.post("/api/user/otpphoneupdate", authenticateUser, async (req, res) => {
 
 router.put("/api/user/verifyotpphoneupdate", authenticateUser, async (req, res) => {
   try{
+    const {phone, otp} = req.body;
     let user = await User.findOne({phone});
+    if (phone === req.user.phone || user?._id.equals(req.user._id)) {
+      return res.status(403).json({
+        success: false,
+        message: "THIS CONTACT NUMBER IS ALREADY REGISTERED",
+      });
+    }
     const verifCheck = await twilio.verify.v2
       .services(process.env.twilioVerifySid)
       .verificationChecks.create({ to: `+91${phone}`, code: otp });
