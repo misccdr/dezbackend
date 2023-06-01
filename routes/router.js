@@ -24,8 +24,7 @@ router.post('/api/login/sendphoneotp', async (req, res) => {
     if (verification.status === "pending") {
       res.status(200).json({
         success: true,
-        verification,
-        phone,
+        message: "OTP sent to "+phone
       });
     }
   } catch (error) {
@@ -188,7 +187,9 @@ router.post("/api/user/otpphoneupdate", authenticateUser, async (req, res) => {
       });
     }
   }catch(error){
-    res.status(400).send(error);
+    res.status(400).json({
+      error: error
+    });
   }
 });
 
