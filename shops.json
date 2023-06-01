@@ -1,7 +1,17 @@
 [
   {
     "shopname": "Kekiz",
+    "shopimg": "https://media.istockphoto.com/id/497959594/photo/fresh-cakes.jpg?s=612x612&w=0&k=20&c=T1vp7QPbg6BY3GE-qwg-i_SqVpstyHBMIwnGakdTTek=",
     "shopaddr": "123 Main St, Anytown",
-    "shopoutlet": "Outlet A"
+    "shopoutlet": "Outlet A",
+    "shopavgrating": "1.5"
+  },
+
+  {
+    "shopname": "Caramellas",
+    "shopimg": "https://content.jdmagicbox.com/comp/lucknow/i9/0522px522.x522.140327125529.t9i9/catalogue/good-bakery-lucknow-7wvraia9jf.jpg",
+    "shopaddr": "3 SMain St, Anytown",
+    "shopoutlet": "Outlet B",
+    "shopavgrating": "3.5"
   }
 ]

@@ -72,7 +72,7 @@ router.post("/api/login/verifyphoneotp", async (req, res) => {
       });
     }
   } catch (error) {
-    res.status(500).send(error);
+    res.status(500).send(error);  
     console.log(error);
   }
 });
@@ -104,7 +104,7 @@ router.get("/api/shops/:id", (req, res) => {
       console.error("Error retrieving shop:", error);
       res.status(500).json({ error: "Failed to retrieve shop" });
     });
-})
+})  
 
 router.get("/api/products/:prodshop", (req, res) => {
   const prodshop = req.params.prodshop;
@@ -184,8 +184,7 @@ router.post("/api/user/otpphoneupdate", authenticateUser, async (req, res) => {
     if (verification.status === "pending") {
       res.status(200).json({
         success: true,
-        verification,
-        phone,
+        message: "OTP send to " + phone
       });
     }
   }catch(error){

@@ -5,6 +5,10 @@ const shopSchema = new mongoose.Schema({
         type: String,
         required: true
     },
+    shopimg: {
+        type: String,
+        required: true
+    },
     shopaddr: {
         type: String,
         required: true
@@ -12,6 +16,10 @@ const shopSchema = new mongoose.Schema({
     shopoutlet: {
         type: String,
         required: true
+    },
+    shopavgrating: {
+        type: Number,
+        default: 0.0
     }
 });
 

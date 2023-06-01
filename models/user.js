@@ -8,13 +8,11 @@ const userSchema = new mongoose.Schema({
     default: "user",
     index: { unique: true, sparse: true },
   },
-
   email: {
     type: String,
     trim: true,
     index: { unique: true, sparse: true },
   },
-
   phone: {
     type: Number,
     trim: true,
@@ -25,7 +23,11 @@ const userSchema = new mongoose.Schema({
       type: String,
       required: true
     }
-  }]
+  }],
+  address: {
+    type: String,
+    trim: true,
+  }
 });
 
 userSchema.methods.generateAuthToken = async function () {
