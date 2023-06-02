@@ -87,21 +87,27 @@ router.get('/api/shops/getAllShops', async (req, res) => {
   res.status(200).json({ shops });
 })
 
-router.get("/api/shops/:id", (req, res) => {
+router.get("/api/shops/:id", async (req, res) => {
+  try{
   const shopId = req.params.id;
 
-  Shop.findById(shopId).then((shop) => {
-    if (!shop) {
-      return res.status(404).json({ error: "Shop not found" });
-    }
+  const shop = await Shop.findById(shopId);
 
-    res.json(shop)
-  })
-    .catch((error) => {
-      // Handle any errors that occur during the query
-      console.error("Error retrieving shop:", error);
-      res.status(500).json({ error: "Failed to retrieve shop" });
+  if (!shop){
+    return res.status(404).json({
+      "success" : "false",
+      "message" : "Shop not found"
     });
+  }
+
+  const products = await Product.find({_id: {$in: shop.shopprods}});
+
+  res.json({shop, products});
+}catch (error) {
+  console.error('Error retrieving restaurant details:', error);
+  res.status(500).json({ error: 'Internal server error' });
+}
+
 })  
 
 router.get("/api/products/:prodshop", (req, res) => {
