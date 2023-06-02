@@ -9,11 +9,6 @@ const productSchema = new mongoose.Schema({
         type: Number,
         required: true
     },
-    prodshop: {
-        type: mongoose.Schema.ObjectId,
-        ref: "Shop",
-        required: true
-    },
     prodimage: {
         type: String,
         required: true

@@ -1,22 +1,20 @@
 [
   {
-    "prodname": "Chocolate Cake",
-    "prodprice": 20.99,
-    "prodshop" : "64736104c5203cddd28dfb93",
-    "prodimage": "xyz",
-    "proddescription": "xyz",
-    "prodcategory": "xyz",
-    "veg": "true"
+    "prodname": "Cheese Pizza",
+    "prodprice": 12.99,
+    "prodimage": "https://example.com/cheese_pizza.jpg",
+    "proddescription": "Delicious cheese pizza made with fresh ingredients.",
+    "prodcategory": "Pizza",
+    "veg": true
   },
 
   {
-    "prodname": "Vanilla Cake",
-    "prodprice": 2.99,
-    "prodshop" : "64736104c5203cddd28dfb93",
-    "prodimage": "xyz",
-    "proddescription": "xyz",
-    "prodcategory": "xyz",
-    "veg": "false"
+    "prodname": "Chicken Burger",
+    "prodprice": 8.99,
+    "prodimage": "https://example.com/chicken_burger.jpg",
+    "proddescription": "Juicy chicken burger served with crispy fries.",
+    "prodcategory": "Burger",
+    "veg": false
   }
 
 

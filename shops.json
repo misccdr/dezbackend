@@ -1,17 +1,23 @@
 [
   {
-    "shopname": "Kekiz",
-    "shopimg": "https://media.istockphoto.com/id/497959594/photo/fresh-cakes.jpg?s=612x612&w=0&k=20&c=T1vp7QPbg6BY3GE-qwg-i_SqVpstyHBMIwnGakdTTek=",
-    "shopaddr": "123 Main St, Anytown",
-    "shopoutlet": "Outlet A",
-    "shopavgrating": "1.5"
+    "shopname": "ABC Supermarket",
+    "shopimg": "https://example.com/shop1.jpg",
+    "shopaddr": "123 Main Street",
+    "shopoutlet": "Outlet 1",
+    "shopavgrating": 4.5,
+    "shopprods": [
+      "647a60f79c1053b4d5492292"
+    ]
   },
 
   {
-    "shopname": "Caramellas",
-    "shopimg": "https://content.jdmagicbox.com/comp/lucknow/i9/0522px522.x522.140327125529.t9i9/catalogue/good-bakery-lucknow-7wvraia9jf.jpg",
-    "shopaddr": "3 SMain St, Anytown",
-    "shopoutlet": "Outlet B",
-    "shopavgrating": "3.5"
+    "shopname": "Fresh Groceries",
+    "shopimg": "https://example.com/shop2.jpg",
+    "shopaddr": "456 Elm Street",
+    "shopoutlet": "Outlet 2",
+    "shopavgrating": 3.8,
+    "shopprods": [
+      "647a60f79c1053b4d5492291"
+    ]
   }
 ]

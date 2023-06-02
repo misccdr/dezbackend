@@ -20,7 +20,13 @@ const shopSchema = new mongoose.Schema({
     shopavgrating: {
         type: Number,
         default: 0.0
-    }
+    },
+    shopprods: [
+        {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: 'Product'
+        }
+      ]
 });
 
 const Shop = new mongoose.model("Shop", shopSchema);
