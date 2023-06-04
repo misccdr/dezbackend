@@ -2,7 +2,9 @@
   {
     "prodname": "Cheese Pizza",
     "prodprice": 12.99,
-    "prodimage": "https://example.com/cheese_pizza.jpg",
+    "prodimages": [
+      "https://example.com/pizza_margherita.jpg"
+    ],
     "proddescription": "Delicious cheese pizza made with fresh ingredients.",
     "prodcategory": "Pizza",
     "veg": true
@@ -11,7 +13,10 @@
   {
     "prodname": "Chicken Burger",
     "prodprice": 8.99,
-    "prodimage": "https://example.com/chicken_burger.jpg",
+    "prodimages": [
+      "https://example.com/chicken_tikka_masala_1.jpg",
+      "https://example.com/chicken_tikka_masala_2.jpg"
+    ],
     "proddescription": "Juicy chicken burger served with crispy fries.",
     "prodcategory": "Burger",
     "veg": false

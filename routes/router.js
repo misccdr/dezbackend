@@ -124,6 +124,86 @@ router.get("/api/products/:prodshop", (req, res) => {
 });
 
 
+// router.get('/api/search', async (req, res) => {
+//   try {
+//     const query = req.query.q;
+
+//     const products = await Product.find(
+//       { prodname: { $regex: query, $options: 'i' } }
+//     );
+
+//     const productIds = products.map(product => product._id);
+
+//     const shops = await Shop.find({ shopprods: { $in: productIds } });
+
+//     const result = shops.map(shop => {
+//       const matchedProducts = products.filter(product =>
+//         shop.shopprods.includes(product._id)
+//       );
+
+//       return {
+//         shop,
+//         products: matchedProducts
+//       };
+//     });
+
+//     res.json(result);
+//   } catch (error) {
+//     console.error('Error searching products:', error);
+//     res.status(500).json({ error: 'Internal server error' });
+//   }
+// });
+
+router.get('/api/searchshopforproduct', async (req, res) => {
+  try {
+    const query = req.query.q;
+
+    const products = await Product.aggregate([
+      {
+        $search : {
+          index: "default",
+          autocomplete:{
+            query: query,
+            path: "prodname",
+            fuzzy: {maxEdits: 1, prefixLength: 2}
+          },
+        },
+      },
+      {
+        $project: {
+          prodname: 1,
+          score: {$meta: "searchScore"},
+        },
+      },
+      { $limit: 2},
+    ]);
+
+
+    const productIds = products.map(product => product._id);
+
+    const shops = await Shop.find({ shopprods: { $in: productIds } });
+
+    const result = shops.map(shop => {
+      const matchedProducts = products.filter(product =>
+        shop.shopprods.includes(product._id)
+      );
+
+      return {
+        shop,
+        products: matchedProducts
+      };
+    });
+
+    res.json({success: true,
+      result: result});
+  } catch (error) {
+    console.error('Error searching products:', error);
+    res.status(500).json({ error: 'Internal server error' });
+  }
+});
+
+
+
 router.get("/api/user/getuser",  authenticateUser, async(req, res) => {
   try{
     const user = await User.findById(req.user._id)
