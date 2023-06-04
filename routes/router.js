@@ -162,16 +162,25 @@ router.get('/api/searchshopforproduct', async (req, res) => {
       {
         $search : {
           index: "default",
-          autocomplete:{
-            query: query,
-            path: "prodname",
-            fuzzy: {maxEdits: 1, prefixLength: 2}
-          },
-          autocomplete:{
-            query: query,
-            path: "prodcategory",
-            fuzzy: {maxEdits: 1, prefixLength: 2}
-          },
+          compound: {
+            should:[
+              {
+                autocomplete:{
+                  query: query,
+                  path: "prodname",
+                  fuzzy: {maxEdits: 1, prefixLength: 2}
+                }
+              },
+              {
+                autocomplete:{
+                  query: query,
+                  path: "prodcategory",
+                  fuzzy: {maxEdits: 1, prefixLength: 2}
+                }
+                
+              }
+            ]
+          }
         },
       },
       {
