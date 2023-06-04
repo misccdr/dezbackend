@@ -167,6 +167,11 @@ router.get('/api/searchshopforproduct', async (req, res) => {
             path: "prodname",
             fuzzy: {maxEdits: 1, prefixLength: 2}
           },
+          autocomplete:{
+            query: query,
+            path: "prodcategory",
+            fuzzy: {maxEdits: 1, prefixLength: 2}
+          },
         },
       },
       {
@@ -176,7 +181,7 @@ router.get('/api/searchshopforproduct', async (req, res) => {
           score: {$meta: "searchScore"},
         },
       },
-      { $limit: 2},
+      { $limit: 10},
     ]);
 
 
