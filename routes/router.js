@@ -172,6 +172,7 @@ router.get('/api/searchshopforproduct', async (req, res) => {
       {
         $project: {
           prodname: 1,
+          prodimages:1,
           score: {$meta: "searchScore"},
         },
       },
@@ -187,6 +188,7 @@ router.get('/api/searchshopforproduct', async (req, res) => {
       const matchedProducts = products.filter(product =>
         shop.shopprods.includes(product._id)
       );
+      
 
       return {
         shop,
