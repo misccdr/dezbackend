@@ -188,6 +188,7 @@ router.get('/api/searchshopforproduct', async (req, res) => {
         $project: {
           prodname: 1,
           prodimages:1,
+          prodprice:1,
           score: {$meta: "searchScore"},
         },
       },
