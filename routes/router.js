@@ -350,7 +350,7 @@ router.put("/api/user/verifyotpphoneupdate", authenticateUser, async (req, res) 
   }
 })
 
-router.post("/create-razorpay-order", async(req, res) => {
+router.post("/api/create-razorpay-order", async(req, res) => {
   try {
     const requestData =  req.body 
 
