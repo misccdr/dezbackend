@@ -1,12 +1,16 @@
 const express = require("express");
 const router = express.Router();
 
+
+const base64 = require('base-64');
+
 const { authenticateUser } = require("../middleware/auth");
 
 
 const Shop = require("../models/shop");
 const Product = require("../models/product");
 const User = require("../models/user");
+const { default: axios } = require("axios");
 
 
 
@@ -343,6 +347,34 @@ router.put("/api/user/verifyotpphoneupdate", authenticateUser, async (req, res) 
   }catch(error){
     res.status(500).send(error);
     console.log(error);
+  }
+})
+
+router.post("/create-razorpay-order", async(req, res) => {
+  try {
+    const requestData =  req.body 
+
+    const data = {
+      amount: requestData.amount,
+      currency: requestData.currency,
+    };
+
+    const credentials = `${process.env.razorpayKeyId}:${process.env.razorpayKeySecret}`;
+    const base64Credentials = base64.encode(credentials);
+
+    const headers = {
+      "Authorization": `Basic ${base64Credentials}`,
+      "Content-Type": "application/json"
+    };
+
+    const response = await axios.post("https://api.razorpay.com/v1/orders",  data, { headers });
+
+    const order = response.data
+
+    res.json(order)
+  }catch(error){
+    console.error("Error creating order:", error);
+    res.status(500).json({ error: "Failed to create order" });
   }
 })
 

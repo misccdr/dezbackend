@@ -27,6 +27,15 @@ const shopSchema = new mongoose.Schema({
             ref: 'Product'
         }
       ]
+    ,
+    veg: {
+        type: Boolean,
+        required: true
+    },  
+    shopcategories: {
+        type: [String],
+        maxLength: 2
+    }
 });
 
 const Shop = new mongoose.model("Shop", shopSchema);

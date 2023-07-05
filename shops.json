@@ -1,23 +1,29 @@
 [
-  {
+  { "_id": "647a61bf51e0bf418b6b076b",
     "shopname": "ABC Supermarket",
     "shopimg": "https://example.com/shop1.jpg",
     "shopaddr": "123 Main Street",
     "shopoutlet": "Outlet 1",
     "shopavgrating": 4.5,
     "shopprods": [
-      "647a60f79c1053b4d5492292"
-    ]
+      "647a6a3a9186dcb5fd69379c",
+      "647a6a3a9186dcb5fd69379d"
+    ],
+    "veg": "true",
+    "shopcategories": ["Bakery", "Desserts"]
   },
 
-  {
+  { "_id": "647a61bf51e0bf418b6b076a",
     "shopname": "Fresh Groceries",
     "shopimg": "https://example.com/shop2.jpg",
     "shopaddr": "456 Elm Street",
     "shopoutlet": "Outlet 2",
     "shopavgrating": 3.8,
     "shopprods": [
-      "647a60f79c1053b4d5492291"
-    ]
+      "647b7ca868931df87d3d4787",
+      "647c246468931df87d49a311"
+    ],
+    "veg": "false",
+    "shopcategories": ["Bakery", "Shakes"]
   }
 ]
