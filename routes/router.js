@@ -378,4 +378,32 @@ router.post("/api/create-razorpay-order", async(req, res) => {
   }
 })
 
+router.post('/api/users/:userId/address', authenticateUser ,async (req, res) => {
+  const { userId } = req.params;
+  const { addressTag, completeAddress, latitude, longitude } = req.body;
+
+  try {
+    const user = await User.findById(userId);
+
+    if (!user) {
+      return res.status(404).json({ success: false, message: "User not found" });
+    }
+
+    const newAddress = {
+      addressTag,
+      completeAddress,
+      latitude,
+      longitude,
+    };
+
+    user.addresses.push(newAddress);
+    await user.save();
+
+    res.status(201).json({ success: true, message: "User address updated Successfully" });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ success: false, message: "User address update error" });
+  }
+});
+
 module.exports = router;

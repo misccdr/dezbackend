@@ -1,5 +1,23 @@
 const mongoose = require("mongoose");
 const jwt = require("jsonwebtoken");
+
+const addressSchema = new mongoose.Schema({
+  addressTag: {
+    type: String,
+    trim: true,
+  },
+  completeAddress: {
+    type: String,
+    trim: true,
+  },
+  latitude: {
+    type: Number,
+  },
+  longitude: {
+    type: Number,
+  },
+});
+
 const userSchema = new mongoose.Schema({
   username: {
     type: String,
@@ -24,10 +42,7 @@ const userSchema = new mongoose.Schema({
       required: true
     }
   }],
-  address: {
-    type: String,
-    trim: true,
-  }
+  addresses: [addressSchema],
 });
 
 userSchema.methods.generateAuthToken = async function () {
