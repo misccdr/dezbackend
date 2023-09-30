@@ -10,6 +10,7 @@ const { authenticateUser } = require("../middleware/auth");
 const Shop = require("../models/shop");
 const Product = require("../models/product");
 const User = require("../models/user");
+const Order = require('../models/order');
 const { default: axios } = require("axios");
 
 
@@ -431,6 +432,33 @@ router.delete('/api/users/:userId/address/:addressId', authenticateUser, async (
     res.status(500).json({ success: false, message: "Address deletion error" });
   }
 });
+
+router.post('/api/orders/placeOrder', async (req, res) => {
+
+  // const{
+  //   user,
+  //   shop,
+  //   ordercontents,
+  //   orderTotal,
+  //   deliveryAddress,
+  //   orderDate,
+  //   orderStatus
+  // } = req.body;
+
+  // try{
+  //   await order
+  // }
+
+  try {
+    const order = new Order(req.body);
+    await order.save();
+    res.status(201).json({ success: true, message: 'Order placed successfully' });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ success: false, message: 'Failed to place order' });
+  }
+
+})
 
 
 module.exports = router;
