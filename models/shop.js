@@ -35,6 +35,16 @@ const shopSchema = new mongoose.Schema({
     shopcategories: {
         type: [String],
         maxLength: 2
+    },
+
+    shopLat: {
+        type: Number,
+        required: true
+    },
+
+    shopLong: {
+        type: Number,
+        required: true
     }
 });
 

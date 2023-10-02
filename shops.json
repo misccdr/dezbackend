@@ -1,29 +1,18 @@
 [
   { "_id": "647a61bf51e0bf418b6b076b",
-    "shopname": "ABC Supermarket",
-    "shopimg": "https://example.com/shop1.jpg",
+    "shopname": "SpiceRoute Kitchen",
+    "shopimg": "https://res.cloudinary.com/tf-lab/image/upload/restaurant/ca0adaa2-89ba-4d1d-8130-69212cad17a7/ddeb82d4-d0ca-495b-8cb2-f78d94ccd90a.jpg",
     "shopaddr": "123 Main Street",
-    "shopoutlet": "Outlet 1",
+    "shopoutlet": "Baner",
     "shopavgrating": 4.5,
     "shopprods": [
       "647a6a3a9186dcb5fd69379c",
       "647a6a3a9186dcb5fd69379d"
     ],
     "veg": "true",
-    "shopcategories": ["Bakery", "Desserts"]
-  },
+    "shopcategories": ["Italian", "Pizzas"],
+    "shopLat" : 73.807687,
+    "shopLong": 18.560606
 
-  { "_id": "647a61bf51e0bf418b6b076a",
-    "shopname": "Fresh Groceries",
-    "shopimg": "https://example.com/shop2.jpg",
-    "shopaddr": "456 Elm Street",
-    "shopoutlet": "Outlet 2",
-    "shopavgrating": 3.8,
-    "shopprods": [
-      "647b7ca868931df87d3d4787",
-      "647c246468931df87d49a311"
-    ],
-    "veg": "false",
-    "shopcategories": ["Bakery", "Shakes"]
   }
 ]

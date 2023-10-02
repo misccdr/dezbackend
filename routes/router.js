@@ -16,6 +16,9 @@ const { default: axios } = require("axios");
 
 
 
+
+
+
 const twilio = require("twilio")(process.env.twilioAccountSid, process.env.twilioAuthToken);
 
 
@@ -88,9 +91,57 @@ router.get('/api/products/getAllProducts', async (req, res) => {
 
 
 router.get('/api/shops/getAllShops', async (req, res) => {
-  const shops = await Shop.find(req.query);
-  res.status(200).json({ shops });
-})
+  const userLat = parseFloat(req.query.lat);
+  const userLong = parseFloat(req.query.long);
+
+  try {
+    const shops = await Shop.find();
+
+    const shopLocations = shops.map((shop) => ({
+      lat: shop.shopLat,
+      long: shop.shopLong,
+    }));
+
+    const destinations = shopLocations.map(
+      (shop) => `${shop.lat},${shop.long}`
+    );
+
+    const url = `https://maps.googleapis.com/maps/api/distancematrix/json?origins=${userLat},${userLong}&destinations=${destinations.join(
+      '|'
+    )}&key=${process.env.GOOGLE_MAPS_API_KEY}`;
+
+    const response = await axios.get(url);
+
+    if (response.status !== 200) {
+      return res.status(500).json({ error: 'Error calculating distances' });
+    }
+
+    console.log(JSON.stringify(response.data, null, 2));
+
+    const distances = response.data.rows[0].elements.map((element) => ({
+      distance: element.distance ? element.distance.text : 'N/A',
+    }));
+    
+    const shopsWithDistances = shops.map((shop, index) => ({
+      shopname: shop.shopname,
+      shopimg: shop.shopimg,
+      shopaddr: shop.shopaddr,
+      shopoutlet: shop.shopoutlet,
+      shopavgrating: shop.shopavgrating,
+      shopcategories: shop.shopcategories,
+      veg: shop.veg,
+      distance: distances[index].distance
+    }));
+    
+
+    res.status(200).json({ shops: shopsWithDistances });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: 'Internal Server Error' });
+  }
+
+  
+});
 
 router.get("/api/shops/:id", async (req, res) => {
   try{
