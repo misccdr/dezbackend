@@ -143,28 +143,7 @@ router.get('/api/shops/getAllShops', async (req, res) => {
   
 });
 
-router.get("/api/shops/:id", async (req, res) => {
-  try{
-  const shopId = req.params.id;
 
-  const shop = await Shop.findById(shopId);
-
-  if (!shop){
-    return res.status(404).json({
-      "success" : "false",
-      "message" : "Shop not found"
-    });
-  }
-
-  const products = await Product.find({_id: {$in: shop.shopprods}});
-
-  res.json({shop, products});
-}catch (error) {
-  console.error('Error retrieving restaurant details:', error);
-  res.status(500).json({ error: 'Internal server error' });
-}
-
-})  
 
 router.get("/api/products/:prodshop", (req, res) => {
   const prodshop = req.params.prodshop;
@@ -509,7 +488,75 @@ router.post('/api/orders/placeOrder', async (req, res) => {
     res.status(500).json({ success: false, message: 'Failed to place order' });
   }
 
-})
+});
+
+router.get('/api/shops/getShopDist/:id', async (req, res) => {
+  try {
+    const shopId = req.params.id;
+    const {lat, long } = req.body;
+
+    // Find the shop by its ID
+    const shop = await Shop.findById(shopId);
+
+    if (!shop) {
+      return res.status(404).json({ error: 'Shop not found' });
+    }
+
+    // Construct the URL for distance calculation
+    const url = `https://maps.googleapis.com/maps/api/distancematrix/json?destinations=${shop.shopLat},${shop.shopLong}&origins=${lat},${long}&key=${process.env.GOOGLE_MAPS_API_KEY}`;
+
+    // Make the API request
+    const response = await axios.get(url);
+
+    if (response.status === 200) {
+      // Extract the distance from the response
+      const distance = response.data.rows[0].elements[0].distance.text;
+
+      // Return the shop with its distance
+      const shopWithDistance = {
+        shopname: shop.shopname,
+      shopimg: shop.shopimg,
+      shopaddr: shop.shopaddr,
+      shopoutlet: shop.shopoutlet,
+      shopavgrating: shop.shopavgrating,
+      shopcategories: shop.shopcategories,
+      veg: shop.veg,
+        distance: distance,
+      };
+
+      res.status(200).json(shopWithDistance);
+    } else {
+      console.error('Error calculating distance');
+      res.status(500).json({ error: 'Error calculating distance' });
+    }
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: 'Internal Server Error' });
+  }
+});
+
+router.get("/api/shops/:id", async (req, res) => {
+  try{
+  const shopId = req.params.id;
+
+  const shop = await Shop.findById(shopId);
+
+  if (!shop){
+    return res.status(404).json({
+      "success" : "false",
+      "message" : "Shop not found"
+    });
+  }
+
+  const products = await Product.find({_id: {$in: shop.shopprods}});
+
+  res.json({shop, products});
+}catch (error) {
+  console.error('Error retrieving restaurant details:', error);
+  res.status(500).json({ error: 'Internal server error' });
+}
+
+});  
 
 
 module.exports = router;
