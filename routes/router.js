@@ -493,7 +493,8 @@ router.post('/api/orders/placeOrder', async (req, res) => {
 router.get('/api/shops/getShopDist/:id', async (req, res) => {
   try {
     const shopId = req.params.id;
-    const {lat, long } = req.body;
+    const lat = parseFloat(req.query.lat);
+    const long = parseFloat(req.query.long);
 
     // Find the shop by its ID
     const shop = await Shop.findById(shopId);
