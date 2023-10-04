@@ -114,7 +114,11 @@ router.get('/api/shops/getAllShops', async (req, res) => {
     console.log(JSON.stringify(response.data, null, 2));
 
     const distances = response.data.rows[0].elements.map((element) => ({
-      distance: element.distance ? element.distance.text : 'N/A',
+      distance: element.distance ? element.distance.value : -1.0,
+    }));
+
+    const times = response.data.rows[0].elements.map((element) => ({
+      time: element.duration ? element.duration.value : -0.0
     }));
     
     const shopsWithDistances = shops.map((shop, index) => ({
@@ -125,7 +129,8 @@ router.get('/api/shops/getAllShops', async (req, res) => {
       shopavgrating: shop.shopavgrating,
       shopcategories: shop.shopcategories,
       veg: shop.veg,
-      distance: distances[index].distance
+      distance: distances[index].distance,
+      time: times[index].time
     }));
     
 
