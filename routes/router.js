@@ -14,11 +14,6 @@ const Order = require('../models/order');
 const { default: axios } = require("axios");
 
 
-
-
-
-
-
 const twilio = require("twilio")(process.env.twilioAccountSid, process.env.twilioAuthToken);
 
 
@@ -511,7 +506,9 @@ router.get('/api/shops/getShopDist/:id', async (req, res) => {
 
     if (response.status === 200) {
       // Extract the distance from the response
-      const distance = response.data.rows[0].elements[0].distance.text;
+      const distance = response.data.rows[0].elements[0].distance.value;
+      const time = response.data.rows[0].elements[1].duration.value;
+
 
       // Return the shop with its distance
       const shopWithDistance = {
@@ -523,6 +520,7 @@ router.get('/api/shops/getShopDist/:id', async (req, res) => {
       shopcategories: shop.shopcategories,
       veg: shop.veg,
         distance: distance,
+        time: time
       };
 
       res.status(200).json(shopWithDistance);
