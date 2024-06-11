@@ -89,6 +89,10 @@ router.get('/api/shops/getAllShops', async (req, res) => {
   const userLat = parseFloat(req.query.lat);
   const userLong = parseFloat(req.query.long);
 
+  if (isNaN(userLat) || isNaN(userLong)) {
+    return res.status(400).json({ error: 'Invalid coordinates' });
+  }
+
   try {
     const shops = await Shop.find();
 
@@ -101,26 +105,38 @@ router.get('/api/shops/getAllShops', async (req, res) => {
       (shop) => `${shop.lat},${shop.long}`
     );
 
+    if (destinations.length === 0) {
+      return res.status(400).json({ error: 'No shop locations available' });
+    }
+
     const url = `https://maps.googleapis.com/maps/api/distancematrix/json?origins=${userLat},${userLong}&destinations=${destinations.join(
       '|'
     )}&key=${process.env.GOOGLE_MAPS_API_KEY}`;
 
+    console.log('Request URL:', url); // Log the URL for debugging
+
     const response = await axios.get(url);
 
-    if (response.status !== 200) {
+    console.log('Distance Matrix API response:', JSON.stringify(response.data, null, 2));
+
+    if (response.data.status !== 'OK') {
       return res.status(500).json({ error: 'Error calculating distances' });
     }
 
-     console.log('Distance Matrix API response:', JSON.stringify(response.data, null, 2));
+    if (!response.data.rows || !response.data.rows[0] || !response.data.rows[0].elements) {
+      return res.status(500).json({ error: 'Unexpected API response structure' });
+    }
 
-    const distances = response.data.rows[0].elements.map((element) => ({
+    const elements = response.data.rows[0].elements;
+
+    const distances = elements.map((element) => ({
       distance: element.distance ? element.distance.value : -1.0,
     }));
 
-    const times = response.data.rows[0].elements.map((element) => ({
-      time: element.duration ? element.duration.value : -0.0
+    const times = elements.map((element) => ({
+      time: element.duration ? element.duration.value : -0.0,
     }));
-    
+
     const shopsWithDistances = shops.map((shop, index) => ({
       shopname: shop.shopname,
       shopimg: shop.shopimg,
@@ -130,17 +146,14 @@ router.get('/api/shops/getAllShops', async (req, res) => {
       shopcategories: shop.shopcategories,
       veg: shop.veg,
       distance: distances[index].distance,
-      time: times[index].time
+      time: times[index].time,
     }));
-    
 
     res.status(200).json({ shops: shopsWithDistances });
   } catch (error) {
     console.error(error);
     res.status(500).json({ error: 'Internal Server Error' });
   }
-
-  
 });
 
 
