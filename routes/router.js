@@ -111,7 +111,7 @@ router.get('/api/shops/getAllShops', async (req, res) => {
       return res.status(500).json({ error: 'Error calculating distances' });
     }
 
-    console.log(JSON.stringify(response.data, null, 2));
+     console.log('Distance Matrix API response:', JSON.stringify(response.data, null, 2));
 
     const distances = response.data.rows[0].elements.map((element) => ({
       distance: element.distance ? element.distance.value : -1.0,
