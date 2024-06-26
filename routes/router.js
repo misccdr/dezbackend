@@ -86,6 +86,7 @@ router.get('/api/products/getAllProducts', async (req, res) => {
 
 
 router.get('/api/shops/getAllShops', async (req, res) => {
+  try{
   const userLat = parseFloat(req.query.lat);
   const userLong = parseFloat(req.query.long);
 
