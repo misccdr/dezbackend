@@ -87,8 +87,8 @@ router.get('/api/products/getAllProducts', async (req, res) => {
 
 router.get('/api/shops/getAllShops', async (req, res) => {
   try{
-  const userLat = parseFloat(req.query.lat);
-  const userLong = parseFloat(req.query.long);
+  // const userLat = parseFloat(req.query.lat);
+  // const userLong = parseFloat(req.query.long);
 
   
      const shops = await Shop.find({});
@@ -98,41 +98,41 @@ router.get('/api/shops/getAllShops', async (req, res) => {
   //     long: shop.shopLong,
   //   }));
 
-    const destinations = shopLocations.map(
-      (shop) => `${shop.lat},${shop.long}`
-    );
+  //   const destinations = shopLocations.map(
+  //     (shop) => `${shop.lat},${shop.long}`
+  //   );
 
-    const url = `https://maps.googleapis.com/maps/api/distancematrix/json?origins=${userLat},${userLong}&destinations=${destinations.join(
-      '|'
-    )}&key=${process.env.GOOGLE_MAPS_API_KEY}`;
+  //   const url = `https://maps.googleapis.com/maps/api/distancematrix/json?origins=${userLat},${userLong}&destinations=${destinations.join(
+  //     '|'
+  //   )}&key=${process.env.GOOGLE_MAPS_API_KEY}`;
 
-  //   const response = await axios.get(url);
+  // //   const response = await axios.get(url);
 
-    if (response.status !== 200) {
-      return res.status(500).json({ error: 'Error calculating distances' });
-    }
+  //   if (response.status !== 200) {
+  //     return res.status(500).json({ error: 'Error calculating distances' });
+  //   }
 
-    console.log(JSON.stringify(response.data, null, 2));
+  //   console.log(JSON.stringify(response.data, null, 2));
 
-    const distances = response.data.rows[0].elements.map((element) => ({
-      distance: element.distance ? element.distance.value : -1.0,
-    }));
+  //   const distances = response.data.rows[0].elements.map((element) => ({
+  //     distance: element.distance ? element.distance.value : -1.0,
+  //   }));
 
-    const times = response.data.rows[0].elements.map((element) => ({
-      time: element.duration ? element.duration.value : -0.0
-    }));
+  //   const times = response.data.rows[0].elements.map((element) => ({
+  //     time: element.duration ? element.duration.value : -0.0
+  //   }));
     
-    const shopsWithDistances = shops.map((shop, index) => ({
-      shopname: shop.shopname,
-      shopimg: shop.shopimg,
-      shopaddr: shop.shopaddr,
-      shopoutlet: shop.shopoutlet,
-      shopavgrating: shop.shopavgrating,
-      shopcategories: shop.shopcategories,
-      veg: shop.veg,
-      distance: distances[index].distance,
-      time: times[index].time
-    }));
+  //   const shopsWithDistances = shops.map((shop, index) => ({
+  //     shopname: shop.shopname,
+  //     shopimg: shop.shopimg,
+  //     shopaddr: shop.shopaddr,
+  //     shopoutlet: shop.shopoutlet,
+  //     shopavgrating: shop.shopavgrating,
+  //     shopcategories: shop.shopcategories,
+  //     veg: shop.veg,
+  //     distance: distances[index].distance,
+  //     time: times[index].time
+  //   }));
     
 
     res.status(200).json({ shops: shops });
